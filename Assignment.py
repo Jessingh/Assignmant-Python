@@ -3,6 +3,13 @@ Author: Jessica Singh
 Date:   January/24
 Description: This Python script leverages the Flask web framework to create a RESTful API 
              for interacting with Cisco DEVNet SandBox via Netmiko.
+
+             Below are the endpoints -
+             network_interaction
+             configure_loopback
+             delete_loopback
+             device_interfaces (display all the interface)        
+             
 """
 
 # Import necessary modules from Flask and Netmiko libraries

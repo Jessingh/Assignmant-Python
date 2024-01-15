@@ -48,7 +48,8 @@ def network_interaction():
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
+      
+# Configuring a loopback on the device
 @app.route('/configure_loopback', methods=['POST'])
 def configure_loopback():
     try:
@@ -84,7 +85,8 @@ def configure_loopback():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
+      
+# Deleting a loopback on the device 
 @app.route('/delete_loopback', methods=['POST'])
 def delete_loopback():
     try:
@@ -118,16 +120,20 @@ def delete_loopback():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
+
+#Sends a Netmiko request to a network device.
+#The output received from the device after executing the command, or an error message if an exception occurs.
 def send_netmiko_request(device_info, command):
     try:
         # Establish an SSH connection using Netmiko
         with ConnectHandler(**device_info) as ssh_conn:
             output = ssh_conn.send_command(command)
         return output
+      
     except Exception as e:
         return f'Netmiko Error: {str(e)}'
-
+      
+#Sends configuration commands to a network device using Netmiko.
 def send_netmiko_config(device_info, config_commands):
     try:
         # Establish an SSH connection using Netmiko
@@ -135,9 +141,12 @@ def send_netmiko_config(device_info, config_commands):
             # Send configuration commands
             output = ssh_conn.send_config_set(config_commands)
         return output
+      
     except Exception as e:
         return f'Netmiko Error: {str(e)}'
     
-
+# Run the Flask application on the specified host and port.
+# host: '0.0.0.0' allows the application to be accessible externally.
+# port: 5000 is the default port for Flask applications
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=5000)    

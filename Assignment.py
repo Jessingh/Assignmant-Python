@@ -143,8 +143,9 @@ def device_interfaces():
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-#Sends a Netmiko request to a network device.
+      
+# Network_interaction & Device_interfaces function call.
+# Sends a Netmiko request to a network device.
 #The output received from the device after executing the command, or an error message if an exception occurs.
 def send_netmiko_request(device_info, command):
     try:
@@ -156,7 +157,8 @@ def send_netmiko_request(device_info, command):
     except Exception as e:
         return f'Netmiko Error: {str(e)}'
       
-#Sends configuration commands to a network device using Netmiko.
+# Loopback_configure & Delete_loopback function call. 
+# Sends configuration commands to a network device using Netmiko.
 def send_netmiko_config(device_info, config_commands):
     try:
         # Establish an SSH connection using Netmiko

@@ -5,10 +5,10 @@ Description: This Python script leverages the Flask web framework to create a RE
              for interacting with Cisco DEVNet SandBox via Netmiko.
 
              Below are the endpoints -
-             network_interaction
-             configure_loopback
-             delete_loopback
-             device_interfaces (display all the interface)        
+             /network_interaction      #Connection to the device.
+             /configure_loopback       #Configuring loopback.
+             /delete_loopback          #Deleting loopback.
+             /device_interfaces        #Display all the device interfaces.        
              
 """
 
@@ -23,8 +23,8 @@ app = Flask(__name__)
 device_info = {
     'device_type': 'cisco_xr',
     'ip': 'sandbox-iosxr-1.cisco.com',
-    'username': 'USER',
-    'password': 'PASSWORD',
+    'username': 'USER',     #Your Username
+    'password': 'PASSWORD', #Your Password 
     'port': 22,  # SSH port
 }
 
@@ -105,7 +105,6 @@ def delete_loopback():
 @app.route('/device_interfaces', methods=['POST'])
 def device_interfaces():
     try:
-
         # Interact with the network device using Netmiko
         netmiko_response = send_netmiko_request(device_info, 'show ip interface brief')
 

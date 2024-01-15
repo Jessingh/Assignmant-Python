@@ -121,6 +121,29 @@ def delete_loopback():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+# List all interfaces on device    
+@app.route('/device_interfaces', methods=['POST'])
+def device_interfaces():
+    try:
+
+        # Interact with the network device using Netmiko
+        netmiko_response = send_netmiko_request(device_info, 'show ip interface brief')
+
+        # Split the netmiko_response into lines
+        lines = netmiko_response.split('\n')
+
+        # Remove empty lines
+        lines = [line.strip() for line in lines if line.strip()]
+
+        # Create a dictionary with key 'netmiko_response' and value as the lines list
+        response_data = {'netmiko_response': lines}
+
+        # Convert the dictionary into a JSON response
+        return jsonify(response_data)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 #Sends a Netmiko request to a network device.
 #The output received from the device after executing the command, or an error message if an exception occurs.
 def send_netmiko_request(device_info, command):

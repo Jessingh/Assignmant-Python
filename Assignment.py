@@ -34,17 +34,8 @@ def network_interaction():
         # Interact with the network device using Netmiko
         netmiko_response = send_netmiko_request(device_info, command)
 
-        # Split the netmiko_response into lines
-        lines = netmiko_response.split('\n')
-
-        # Remove empty lines
-        lines = [line.strip() for line in lines if line.strip()]
-
-        # Create a dictionary with key 'netmiko_response' and value as the lines list
-        response_data = {'netmiko_response': lines}
-
-        # Convert the dictionary into a JSON response
-        return jsonify(response_data)
+        # Format the data into a JSON response
+        return jsonify(format_response(netmiko_response))
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -71,17 +62,8 @@ def configure_loopback():
         # Interact with the network device using Netmiko
         netmiko_response = send_netmiko_config(device_info, config_commands)
     
-        # Split the netmiko_response into lines
-        lines = netmiko_response.split('\n')
-
-        # Remove empty lines
-        lines = [line.strip() for line in lines if line.strip()]
-
-        # Create a dictionary with key 'netmiko_response' and value as the lines list
-        response_data = {'netmiko_response': lines}
-
-        # Convert the dictionary into a JSON response
-        return jsonify(response_data)
+        # Format the data into a JSON response
+        return jsonify(format_response(netmiko_response))
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -106,17 +88,8 @@ def delete_loopback():
         # Interact with the network device using Netmiko
         netmiko_response = send_netmiko_config(device_info, delete_commands)
     
-        # Split the netmiko_response into lines
-        lines = netmiko_response.split('\n')
-
-        # Remove empty lines
-        lines = [line.strip() for line in lines if line.strip()]
-
-        # Create a dictionary with key 'netmiko_response' and value as the lines list
-        response_data = {'netmiko_response': lines}
-
-        # Convert the dictionary into a JSON response
-        return jsonify(response_data)      
+        # Format the data into a JSON response
+        return jsonify(format_response(netmiko_response))     
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -129,17 +102,8 @@ def device_interfaces():
         # Interact with the network device using Netmiko
         netmiko_response = send_netmiko_request(device_info, 'show ip interface brief')
 
-        # Split the netmiko_response into lines
-        lines = netmiko_response.split('\n')
-
-        # Remove empty lines
-        lines = [line.strip() for line in lines if line.strip()]
-
-        # Create a dictionary with key 'netmiko_response' and value as the lines list
-        response_data = {'netmiko_response': lines}
-
-        # Convert the dictionary into a JSON response
-        return jsonify(response_data)
+        # Format the data into a JSON response
+        return jsonify(format_response(netmiko_response))
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -169,6 +133,11 @@ def send_netmiko_config(device_info, config_commands):
       
     except Exception as e:
         return f'Netmiko Error: {str(e)}'
+      
+# Format response function call
+def format_response(netmiko_response):
+    lines = [line.strip() for line in netmiko_response.split('\n') if line.strip()]
+    return {'netmiko_response': lines}
     
 # Run the Flask application on the specified host and port.
 # host: '0.0.0.0' allows the application to be accessible externally.
